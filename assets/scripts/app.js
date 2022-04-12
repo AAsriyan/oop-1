@@ -12,9 +12,28 @@ class Product {
 	}
 }
 
+class ShoppingCart {
+	items = [];
+
+	render() {
+		const cartEl = document.createElement("section");
+		cartEl.innerHTML = `
+			<h2>Total: \$${0}</h2>
+			<button>Order Now!</button>
+		`;
+		cartEl.className = "cart";
+		return cartEl;
+	}
+}
+
 class ProductItem {
 	constructor(product) {
 		this.product = product;
+	}
+
+	addToCart() {
+		console.log("Adding product to cart");
+		console.log(this.product);
 	}
 
 	render() {
@@ -31,6 +50,8 @@ class ProductItem {
 					</div>
 				</div>
 			`;
+		const addCartButton = prodEl.querySelector("button");
+		addCartButton.addEventListener("click", this.addToCart.bind(this));
 		return prodEl;
 	}
 }
@@ -44,7 +65,6 @@ class ProductList {
 	constructor() {}
 
 	render() {
-		const renderHook = document.getElementById("app");
 		const prodList = document.createElement("ul");
 		prodList.className = "product-list";
 		for (const prod of this.products) {
@@ -52,43 +72,23 @@ class ProductList {
 			const prodEl = productItem.render();
 			prodList.append(prodEl);
 		}
-		renderHook.append(prodList);
+		return prodList;
 	}
 }
 
-// console.log(new Product())
-// const pList = {
-// 	products: [
-// 		{ 
-// 			title: "A Pillow", 
-// 			imageUrl: "https://imgs.search.brave.com/emwM74thqCauE0n4EshcBiHJnq1_ZNXl3F043gWID_8/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly93d3cu/cGFjaWZpY2NvYXN0/LmNvbS9vbi9kZW1h/bmR3YXJlLnN0YXRp/Yy8tL1NpdGVzLXBj/Zi1tYXN0ZXItY2F0/YWxvZy9kZWZhdWx0/L2R3NjE0MTU2Nzcv/aW1hZ2VzL1BpbGxv/d3MvcGFjaWZpYy1j/b2FzdC1sdXh1cnkt/ZG93bi1maXJtLXBp/bGxvdy0yNjQ3Ni03/Ny5qcGc", 
-// 			price: 19.99, 
-// 			description: "A soft pillow!" 
-// 		}
-// 	],
-// 	render() {
-// 		const renderHook = document.getElementById("app");
-// 		const prodList = document.createElement("ul");
-// 		prodList.className = "product-list";
-// 		for (const prod of this.products) {
-// 			const prodEl = document.createElement("li");
-// 			prodEl.className = "product-item";
-// 			prodEl.innerHTML = `
-// 				<div>
-// 					<img src="${prod.imageUrl}" alt="${prod.title}">
-// 					<div class="product-item__content">
-// 						<h2>${prod.title}</h2>
-// 						<h3>\$${prod.price}</h3>
-// 						<p>${prod.description}</p>
-// 						<button>Add to Cart</button>
-// 					</div>
-// 				</div>
-// 			`
-// 			prodList.append(prodEl);
-// 		}
-// 		renderHook.append(prodList);
-// 	}
-// }
+class Shop {
+	render() {
+		const renderHook = document.getElementById("app");
+		const cart = new ShoppingCart();
+		const cartEl = cart.render();
+		const productList = new ProductList();
+		const prodListEl = productList.render();
+		
+		renderHook.append(cartEl);
+		renderHook.append(prodListEl);
 
-const productList = new ProductList();
-productList.render()
+	}
+}
+
+const shop = new Shop();
+shop.render();
