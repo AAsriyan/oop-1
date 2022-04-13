@@ -59,7 +59,12 @@ class ShoppingCart extends Component {
 	};
 
 	constructor(renderHookId) {
-		super(renderHookId);
+		super(renderHookId, false);
+		this.orderProducts = () => {
+			console.log("Ordering...");
+			console.log(this.items);
+		};
+		this.render();
 	}
 
 	addProduct(product) {
@@ -68,13 +73,17 @@ class ShoppingCart extends Component {
 		this.cartItems = updatedItems;
 	}
 
+
 	render() {
 		const cartEl = this.createRootElement("section", "cart");
 		cartEl.innerHTML = `
 			<h2>Total: \$${0}</h2>
 			<button>Order Now!</button>
 		`;
-		cartEl.className = "cart";
+		const orderButton = cartEl.querySelector("button");
+		// one approach
+		// orderButton.addEventListener("click", () => this.orderProducts());
+		orderButton.addEventListener("click", this.orderProducts);
 		this.totalOutput = cartEl.querySelector("h2");
 	}
 }
@@ -109,15 +118,16 @@ class ProductItem  extends Component {
 }
 
 class ProductList extends Component {
-	products = [];
+	#products = [];
 
 	constructor(renderHookId) {
-		super(renderHookId);
+		super(renderHookId, false);
+		this.render();
 		this.fetchProducts();
 	}
 	
 	fetchProducts() {
-		this.products = [
+		this.#products = [
 			new Product("A Carpet", "https://imgs.search.brave.com/Yae0XrGoqQz3DuWbH_5nUW57jX2P451RHe3d4NhMOuQ/rs:fit:474:225:1/g:ce/aHR0cHM6Ly90c2Uz/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC43/NW1iWDk1aDhOa1Zx/czBFc3VCZUtnSGFI/YSZwaWQ9QXBp", "A nice carpet!", 39.99),
 			new Product("A Pillow", "https://imgs.search.brave.com/emwM74thqCauE0n4EshcBiHJnq1_ZNXl3F043gWID_8/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly93d3cu/cGFjaWZpY2NvYXN0/LmNvbS9vbi9kZW1h/bmR3YXJlLnN0YXRp/Yy8tL1NpdGVzLXBj/Zi1tYXN0ZXItY2F0/YWxvZy9kZWZhdWx0/L2R3NjE0MTU2Nzcv/aW1hZ2VzL1BpbGxv/d3MvcGFjaWZpYy1j/b2FzdC1sdXh1cnkt/ZG93bi1maXJtLXBp/bGxvdy0yNjQ3Ni03/Ny5qcGc", "A soft pillow!", 19.99),
 		]
@@ -125,7 +135,7 @@ class ProductList extends Component {
 	}
 
 	renderProducts() {
-		for (const prod of this.products) {
+		for (const prod of this.#products) {
 			new ProductItem(prod, "prod-list");
 		}
 		
@@ -133,7 +143,7 @@ class ProductList extends Component {
 	
 	render() {
 		this.createRootElement("ul", "product-list", [new ElementAttribute("id", "prod-list")]);
-		if (this.products && this.products.length > 0) {
+		if (this.#products && this.#products.length > 0) {
 			this.renderProducts();
 		}
 	}
