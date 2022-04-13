@@ -50,13 +50,18 @@ class ShoppingCart extends Component {
 
 	set cartItems(value) {
 		this.items = value;
-		this.totalOutput.innerHTML = `<h2>Total: \$${this.totalAmount.toFixed(2)}</h2>`;
+		this.totalOutput.innerHTML = `<h2>Total: \$${this.totalAmount.toFixed(
+			2
+		)}</h2>`;
 	}
 
 	get totalAmount() {
-		const sum = this.items.reduce((prevValue, curItem) => prevValue + curItem.price, 0);
+		const sum = this.items.reduce(
+			(prevValue, curItem) => prevValue + curItem.price,
+			0
+		);
 		return sum;
-	};
+	}
 
 	constructor(renderHookId) {
 		super(renderHookId, false);
@@ -73,7 +78,6 @@ class ShoppingCart extends Component {
 		this.cartItems = updatedItems;
 	}
 
-
 	render() {
 		const cartEl = this.createRootElement("section", "cart");
 		cartEl.innerHTML = `
@@ -88,7 +92,7 @@ class ShoppingCart extends Component {
 	}
 }
 
-class ProductItem  extends Component {
+class ProductItem extends Component {
 	constructor(product, renderHookId) {
 		super(renderHookId, false);
 		this.product = product;
@@ -101,7 +105,7 @@ class ProductItem  extends Component {
 
 	render() {
 		const prodEl = this.createRootElement("li", "product-item");
-			prodEl.innerHTML = `
+		prodEl.innerHTML = `
 				<div>
 					<img src="${this.product.imageUrl}" alt="${this.product.title}">
 					<div class="product-item__content">
@@ -125,12 +129,22 @@ class ProductList extends Component {
 		this.render();
 		this.fetchProducts();
 	}
-	
+
 	fetchProducts() {
 		this.#products = [
-			new Product("A Carpet", "https://imgs.search.brave.com/Yae0XrGoqQz3DuWbH_5nUW57jX2P451RHe3d4NhMOuQ/rs:fit:474:225:1/g:ce/aHR0cHM6Ly90c2Uz/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC43/NW1iWDk1aDhOa1Zx/czBFc3VCZUtnSGFI/YSZwaWQ9QXBp", "A nice carpet!", 39.99),
-			new Product("A Pillow", "https://imgs.search.brave.com/emwM74thqCauE0n4EshcBiHJnq1_ZNXl3F043gWID_8/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly93d3cu/cGFjaWZpY2NvYXN0/LmNvbS9vbi9kZW1h/bmR3YXJlLnN0YXRp/Yy8tL1NpdGVzLXBj/Zi1tYXN0ZXItY2F0/YWxvZy9kZWZhdWx0/L2R3NjE0MTU2Nzcv/aW1hZ2VzL1BpbGxv/d3MvcGFjaWZpYy1j/b2FzdC1sdXh1cnkt/ZG93bi1maXJtLXBp/bGxvdy0yNjQ3Ni03/Ny5qcGc", "A soft pillow!", 19.99),
-		]
+			new Product(
+				"A Carpet",
+				"https://imgs.search.brave.com/Yae0XrGoqQz3DuWbH_5nUW57jX2P451RHe3d4NhMOuQ/rs:fit:474:225:1/g:ce/aHR0cHM6Ly90c2Uz/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC43/NW1iWDk1aDhOa1Zx/czBFc3VCZUtnSGFI/YSZwaWQ9QXBp",
+				"A nice carpet!",
+				39.99
+			),
+			new Product(
+				"A Pillow",
+				"https://imgs.search.brave.com/emwM74thqCauE0n4EshcBiHJnq1_ZNXl3F043gWID_8/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly93d3cu/cGFjaWZpY2NvYXN0/LmNvbS9vbi9kZW1h/bmR3YXJlLnN0YXRp/Yy8tL1NpdGVzLXBj/Zi1tYXN0ZXItY2F0/YWxvZy9kZWZhdWx0/L2R3NjE0MTU2Nzcv/aW1hZ2VzL1BpbGxv/d3MvcGFjaWZpYy1j/b2FzdC1sdXh1cnkt/ZG93bi1maXJtLXBp/bGxvdy0yNjQ3Ni03/Ny5qcGc",
+				"A soft pillow!",
+				19.99
+			)
+		];
 		this.renderProducts();
 	}
 
@@ -138,11 +152,12 @@ class ProductList extends Component {
 		for (const prod of this.#products) {
 			new ProductItem(prod, "prod-list");
 		}
-		
 	}
-	
+
 	render() {
-		this.createRootElement("ul", "product-list", [new ElementAttribute("id", "prod-list")]);
+		this.createRootElement("ul", "product-list", [
+			new ElementAttribute("id", "prod-list")
+		]);
 		if (this.#products && this.#products.length > 0) {
 			this.renderProducts();
 		}
@@ -174,4 +189,3 @@ class App {
 }
 
 App.init();
-
